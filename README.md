@@ -25,3 +25,20 @@ Built as **Project #3** of a 90-Day / 30-Project Developer Sprint.
 1. Clone the repository:
    ```bash
    git clone [https://github.com/abikurian/ambient-mixer.git](https://github.com/abikurian/ambient-mixer.git)
+2. Navigate to the project directory and install dependencies:
+   ```bash
+   cd ambient-mixer
+   npm install
+   ```
+3. Add your ambient MP3 files to the public/audio directory:
+    ```bash
+    rain.mp3
+    fire.mp3
+    waves.mp3
+    forest.mp3
+    ```
+4. Start the development server:
+    ```bash
+    npm run dev
+    ```
+5. Open http://localhost:3000 in your browser.
