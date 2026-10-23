@@ -22,6 +22,25 @@ export default function Home() {
     forest: { playing: false, volume: 50 },
   });
 
+  const [timeLeft, setTimeLeft] = useState(1500);
+  const [timerRunning, setTimerRunning] = useState(false);
+
+  useEffect(() => {
+    if (!timerRunning) return;
+
+    const interval = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          setTimerRunning(false);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [timerRunning]);
+
   const [hasLoadedStorage, setHasLoadedStorage] = useState(false);
 
   useEffect(() => {
@@ -122,15 +141,61 @@ export default function Home() {
     });
   };
 
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+  };
+
+  const toggleTimer = () => {
+    if (timeLeft === 0) {
+      setTimeLeft(1500);
+      setTimerRunning(true);
+      return;
+    }
+    setTimerRunning((prev) => !prev);
+  };
+
   return (
     <main className="min-h-screen bg-zinc-950 text-zinc-100 p-6 md:p-12 font-sans">
       <div className="max-w-3xl mx-auto space-y-12">
 
-        <header className="text-center space-y-3 pt-8 md:pt-16">
-          <h1 className="text-4xl md:text-5xl font-black tracking-tighter text-white">
-            Ambient<span className="text-zinc-600">Mixer</span>
-          </h1>
-          <p className="text-zinc-400 font-medium">Craft your perfect focus soundscape.</p>
+        <header className="text-center space-y-6 pt-8 md:pt-16">
+          <div className="space-y-3">
+            <h1 className="text-4xl md:text-5xl font-black tracking-tighter text-white">
+              Ambient<span className="text-zinc-600">Mixer</span>
+            </h1>
+            <p className="text-zinc-400 font-medium">Craft your perfect focus soundscape.</p>
+          </div>
+
+          <div className="inline-flex flex-col items-center gap-3 bg-zinc-900/60 border border-zinc-800/80 rounded-2xl px-8 py-5 backdrop-blur-sm">
+            <span className="text-xs uppercase tracking-widest text-zinc-500 font-semibold">
+              Focus Timer
+            </span>
+            <div className="text-5xl md:text-6xl font-mono font-bold tracking-tight text-white">
+              {formatTime(timeLeft)}
+            </div>
+            <button
+              onClick={toggleTimer}
+              className={`flex items-center gap-2 px-6 py-2 rounded-xl text-sm font-semibold transition-all cursor-pointer ${
+                timerRunning
+                  ? "bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700"
+                  : "bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-500/20"
+              }`}
+            >
+              {timerRunning ? (
+                <>
+                  <Pause className="w-4 h-4" />
+                  Pause
+                </>
+              ) : (
+                <>
+                  <Play className="w-4 h-4 ml-0.5" fill="currentColor" />
+                  Start Focus
+                </>
+              )}
+            </button>
+          </div>
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
