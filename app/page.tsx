@@ -148,12 +148,14 @@ export default function Home() {
   };
 
   const toggleTimer = () => {
-    if (timeLeft === 0) {
-      setTimeLeft(1500);
-      setTimerRunning(true);
-      return;
-    }
-    setTimerRunning((prev) => !prev);
+    setTimeLeft((curr) => {
+      if (curr === 0) {
+        setTimerRunning(true);
+        return 1500;
+      }
+      setTimerRunning((prev) => !prev);
+      return curr;
+    });
   };
 
   const resetTimer = () => {
@@ -167,6 +169,27 @@ export default function Home() {
       stopAll();
     }
   }, [timeLeft]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      const isInput =
+        target &&
+        (target.tagName === "INPUT" ||
+          target.tagName === "TEXTAREA" ||
+          target.isContentEditable);
+
+      if (e.code === "Space" && !isInput) {
+        e.preventDefault();
+        toggleTimer();
+      } else if ((e.key === "m" || e.key === "M") && !isInput) {
+        stopAll();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   return (
     <main className="min-h-screen bg-zinc-950 text-zinc-100 p-6 md:p-12 font-sans">
