@@ -1,69 +1,60 @@
-import Image from "next/image";
+"use client";
+
+import { CloudRain, Flame, Waves, Trees, Play } from "lucide-react";
+
+const TRACKS = [
+  { id: "rain", name: "Rain Storm", icon: CloudRain },
+  { id: "fire", name: "Campfire", icon: Flame },
+  { id: "waves", name: "Ocean Waves", icon: Waves },
+  { id: "forest", name: "Deep Forest", icon: Trees },
+];
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
+    <main className="min-h-screen bg-zinc-950 text-zinc-100 p-6 md:p-12 font-sans">
+      <div className="max-w-3xl mx-auto space-y-12">
+
+        <header className="text-center space-y-3 pt-8 md:pt-16">
+          <h1 className="text-4xl md:text-5xl font-black tracking-tighter text-white">
+            Ambient<span className="text-zinc-600">Mixer</span>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+          <p className="text-zinc-400 font-medium">Craft your perfect focus soundscape.</p>
+        </header>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {TRACKS.map((track) => (
+            <div
+              key={track.id}
+              className="bg-zinc-900/50 border border-zinc-800/50 rounded-2xl p-6 flex flex-col gap-6 backdrop-blur-sm transition-colors hover:bg-zinc-900"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 bg-zinc-800/50 rounded-xl text-indigo-400">
+                    <track.icon className="w-6 h-6" />
+                  </div>
+                  <h2 className="text-lg font-bold text-zinc-200">{track.name}</h2>
+                </div>
+                <button className="p-3 bg-zinc-800 hover:bg-zinc-700 rounded-full transition-colors text-zinc-300 hover:text-white">
+                  <Play className="w-5 h-5 ml-0.5" fill="currentColor" />
+                </button>
+              </div>
+
+              <div className="flex items-center gap-4">
+                <span className="text-xs text-zinc-600 font-medium w-6">0</span>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  defaultValue="50"
+                  className="w-full accent-indigo-500 h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer"
+                />
+                <span className="text-xs text-zinc-600 font-medium w-6 text-right">100</span>
+              </div>
+            </div>
+          ))}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+
+      </div>
+    </main>
   );
 }
