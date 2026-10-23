@@ -1,36 +1,27 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ambient Soundscape Mixer
 
-## Getting Started
+A distraction-free web audio interface for generating custom focus soundscapes. Built to mix multiple ambient tracks smoothly with a built-in Pomodoro focus timer that automatically manages playback state.
 
-First, run the development server:
+Built as **Project #3** of a 90-Day / 30-Project Developer Sprint.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🎧 Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+* **Multi-Track Audio Engine:** Seamlessly mix Rain, Campfire, Ocean Waves, and Forest ambience using the HTML5 Audio API, decoupled from React re-renders via `useRef`.
+* **Pomodoro Automation:** Built-in memory-safe focus timer that automatically triggers a master mute on the audio engine when a session reaches zero.
+* **Persistent Mixes:** Your custom volume levels are silently saved to `localStorage` on every slider adjustment and safely restored on page refresh without violating browser autoplay policies.
+* **Dynamic UI States:** Sound cards feature real-time visual feedback, glowing and pulsing gently using Tailwind CSS animations when tracks are active.
+* **Batch State Controls:** Master "Stop All" and "Reset Volumes" controls to instantly batch-update the React state and silence all hardware audio nodes.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+* **Framework:** Next.js (App Router)
+* **Styling:** Tailwind CSS
+* **Icons:** Lucide React
+* **State Management:** React `useState`, `useEffect`, and `useRef`
+* **Audio:** HTML5 `<audio>` API
 
-## Learn More
+## 💻 Running Locally
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Clone the repository:
+   ```bash
+   git clone [https://github.com/abikurian/ambient-mixer.git](https://github.com/abikurian/ambient-mixer.git)
