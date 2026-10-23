@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { CloudRain, Flame, Waves, Trees, Play, Pause } from "lucide-react";
 
 const TRACKS = [
@@ -11,6 +11,8 @@ const TRACKS = [
 ];
 
 export default function Home() {
+  const audioRefs = useRef<Record<string, HTMLAudioElement | null>>({});
+
   const [trackState, setTrackState] = useState<
     Record<string, { playing: boolean; volume: number }>
   >({
@@ -19,6 +21,38 @@ export default function Home() {
     waves: { playing: false, volume: 50 },
     forest: { playing: false, volume: 50 },
   });
+
+  useEffect(() => {
+    TRACKS.forEach((track) => {
+      const audio = new Audio(`/audio/${track.id}.mp3`);
+      audio.loop = true;
+      audioRefs.current[track.id] = audio;
+    });
+
+    return () => {
+      Object.values(audioRefs.current).forEach((audio) => {
+        if (audio) {
+          audio.pause();
+        }
+      });
+    };
+  }, []);
+
+  useEffect(() => {
+    TRACKS.forEach((track) => {
+      const audio = audioRefs.current[track.id];
+      const state = trackState[track.id];
+      if (!audio || !state) return;
+
+      if (state.playing) {
+        audio.play().catch(console.error);
+      } else {
+        audio.pause();
+      }
+
+      audio.volume = state.volume / 100;
+    });
+  }, [trackState]);
 
   const togglePlay = (id: string) => {
     setTrackState((prev) => ({
