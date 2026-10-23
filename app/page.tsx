@@ -113,12 +113,18 @@ export default function Home() {
             return (
               <div
                 key={track.id}
-                className="bg-zinc-900/50 border border-zinc-800/50 rounded-2xl p-6 flex flex-col gap-6 backdrop-blur-sm transition-colors hover:bg-zinc-900"
+                className={`border border-zinc-800/50 rounded-2xl p-6 flex flex-col gap-6 backdrop-blur-sm transition-all hover:bg-zinc-900 ${
+                  isPlaying
+                    ? "bg-zinc-800/80 ring-1 ring-indigo-500/50"
+                    : "bg-zinc-900/50"
+                }`}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
                     <div className="p-3 bg-zinc-800/50 rounded-xl text-indigo-400">
-                      <track.icon className="w-6 h-6" />
+                      <track.icon
+                        className={`w-6 h-6 ${isPlaying ? "animate-pulse" : ""}`}
+                      />
                     </div>
                     <h2 className="text-lg font-bold text-zinc-200">{track.name}</h2>
                   </div>
