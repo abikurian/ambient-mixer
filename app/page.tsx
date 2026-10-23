@@ -22,6 +22,34 @@ export default function Home() {
     forest: { playing: false, volume: 50 },
   });
 
+  const [hasLoadedStorage, setHasLoadedStorage] = useState(false);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("ambientMix");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        const safeState: Record<string, { playing: boolean; volume: number }> = {};
+        for (const [id, state] of Object.entries(parsed)) {
+          safeState[id] = {
+            ...(state as { playing: boolean; volume: number }),
+            playing: false,
+          };
+        }
+        setTrackState((prev) => ({ ...prev, ...safeState }));
+      }
+    } catch (error) {
+      console.error("Failed to load ambientMix from localStorage:", error);
+    } finally {
+      setHasLoadedStorage(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!hasLoadedStorage) return;
+    localStorage.setItem("ambientMix", JSON.stringify(trackState));
+  }, [trackState, hasLoadedStorage]);
+
   useEffect(() => {
     TRACKS.forEach((track) => {
       const audio = new Audio(`/audio/${track.id}.mp3`);
