@@ -156,6 +156,18 @@ export default function Home() {
     setTimerRunning((prev) => !prev);
   };
 
+  const resetTimer = () => {
+    setTimerRunning(false);
+    setTimeLeft(1500);
+  };
+
+  useEffect(() => {
+    if (timeLeft <= 0) {
+      setTimerRunning(false);
+      stopAll();
+    }
+  }, [timeLeft]);
+
   return (
     <main className="min-h-screen bg-zinc-950 text-zinc-100 p-6 md:p-12 font-sans">
       <div className="max-w-3xl mx-auto space-y-12">
@@ -175,26 +187,35 @@ export default function Home() {
             <div className="text-5xl md:text-6xl font-mono font-bold tracking-tight text-white">
               {formatTime(timeLeft)}
             </div>
-            <button
-              onClick={toggleTimer}
-              className={`flex items-center gap-2 px-6 py-2 rounded-xl text-sm font-semibold transition-all cursor-pointer ${
-                timerRunning
-                  ? "bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700"
-                  : "bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-500/20"
-              }`}
-            >
-              {timerRunning ? (
-                <>
-                  <Pause className="w-4 h-4" />
-                  Pause
-                </>
-              ) : (
-                <>
-                  <Play className="w-4 h-4 ml-0.5" fill="currentColor" />
-                  Start Focus
-                </>
-              )}
-            </button>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={toggleTimer}
+                className={`flex items-center gap-2 px-6 py-2 rounded-xl text-sm font-semibold transition-all cursor-pointer ${
+                  timerRunning
+                    ? "bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700"
+                    : "bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-500/20"
+                }`}
+              >
+                {timerRunning ? (
+                  <>
+                    <Pause className="w-4 h-4" />
+                    Pause
+                  </>
+                ) : (
+                  <>
+                    <Play className="w-4 h-4 ml-0.5" fill="currentColor" />
+                    Start Focus
+                  </>
+                )}
+              </button>
+              <button
+                onClick={resetTimer}
+                className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all cursor-pointer bg-zinc-800/80 hover:bg-zinc-700 text-zinc-300 hover:text-white border border-zinc-700/60"
+              >
+                <RotateCcw className="w-4 h-4" />
+                Reset
+              </button>
+            </div>
           </div>
         </header>
 
