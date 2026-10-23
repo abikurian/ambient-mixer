@@ -16,6 +16,7 @@ export const metadata: Metadata = {
   title: "Ambient Mixer",
   description:
     "Craft your perfect focus soundscape with customized ambient mixes and built-in Pomodoro timer.",
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
