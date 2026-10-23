@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { CloudRain, Flame, Waves, Trees, Play, Pause } from "lucide-react";
+import { CloudRain, Flame, Waves, Trees, Play, Pause, Square, RotateCcw } from "lucide-react";
 
 const TRACKS = [
   { id: "rain", name: "Rain Storm", icon: CloudRain },
@@ -74,6 +74,26 @@ export default function Home() {
     }));
   };
 
+  const stopAll = () => {
+    setTrackState((prev) => {
+      const updated: Record<string, { playing: boolean; volume: number }> = {};
+      for (const [id, state] of Object.entries(prev)) {
+        updated[id] = { ...state, playing: false };
+      }
+      return updated;
+    });
+  };
+
+  const resetVolumes = () => {
+    setTrackState((prev) => {
+      const updated: Record<string, { playing: boolean; volume: number }> = {};
+      for (const [id, state] of Object.entries(prev)) {
+        updated[id] = { ...state, volume: 50 };
+      }
+      return updated;
+    });
+  };
+
   return (
     <main className="min-h-screen bg-zinc-950 text-zinc-100 p-6 md:p-12 font-sans">
       <div className="max-w-3xl mx-auto space-y-12">
@@ -138,6 +158,23 @@ export default function Home() {
               </div>
             );
           })}
+        </div>
+
+        <div className="flex justify-center gap-4 pt-8 border-t border-zinc-800/50">
+          <button
+            onClick={stopAll}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 hover:text-white text-zinc-300 font-medium text-sm transition-all cursor-pointer"
+          >
+            <Square className="w-4 h-4" />
+            Stop All
+          </button>
+          <button
+            onClick={resetVolumes}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 hover:text-white text-zinc-300 font-medium text-sm transition-all cursor-pointer"
+          >
+            <RotateCcw className="w-4 h-4" />
+            Reset Volumes
+          </button>
         </div>
 
       </div>
